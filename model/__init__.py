@@ -9,3 +9,17 @@
 @Contact :   zh826256645@gmail.com
 @Desc    :   None
 """
+import random
+
+from model.link import Link, Node
+
+
+def init_link(length: int = 10, is_random=False) -> Link:
+    "初始化 Link 对象"
+    link = Link()
+    for i in range(length):
+        if is_random:
+            link.add_node(Node(random.randint(0, length)))
+        else:
+            link.add_node(Node(i))
+    return link

@@ -13,7 +13,6 @@
 
 class Node:
     """ 节点 """
-
     def __init__(self, value=None, next_node=None):
         self.element = value
         self.next_node = next_node
@@ -29,6 +28,18 @@ class Node:
     def __str__(self):
         return f'Node[element={self.element}]'
 
+    def __gt__(self, other_node):
+        return self.element > other_node.element
+
+    def __lt__(self, other_node):
+        return self.element < other_node.element
+
+    def __ge__(self, other_node):
+        return self.element >= other_node.element
+
+    def __le__(self, other_node):
+        return self.element <= other_node.element
+
 
 class Link:
     """ 链表 """
@@ -42,11 +53,11 @@ class Link:
         if not self.head_node:
             self.head_node = node
         else:
-            _node = self.head_node
-            while _node.next_node:
-                _node = _node.next_node
+            current_node = self.head_node
+            while current_node.next_node:
+                current_node = current_node.next_node
 
-            _node.next_node = node
+            current_node.next_node = node
 
         self.length += 1
         return True
@@ -74,11 +85,15 @@ class Link:
             self.length -= 1
         return status
 
-    def find(self, index: int) -> Node:
+    def find_node(self, index: int) -> Node:
         "查找节点"
-        _index = 0
+        status = self.has_cycle()
+        if status:
+            raise Exception('链表存在环')
+
+        _index = 1
         current_node = self.head_node
-        if index <= self.length - 1:
+        if index <= self.length:
             while current_node:
                 if _index == index:
                     return current_node
@@ -87,8 +102,20 @@ class Link:
                     _index += 1
         return None
 
+    def find_last_node(self, reverse_index: int):
+        "通过 length 属性查找倒数第几个节点"
+        index = self.length - reverse_index + 1
+
+        if index > 0:
+            return self.find_node(index)
+        return None
+
     def get_nodes(self) -> list:
         "获取所有节点"
+        status = self.has_cycle()
+        if status:
+            raise Exception('链表存在环')
+
         nodes = list()
         current_node = self.head_node
         while current_node:
@@ -97,25 +124,17 @@ class Link:
 
         return nodes
 
+    def has_cycle(self) -> bool:
+        "判断链表是否有环"
+        first_node = self.head_node
+        second_node = self.head_node
+        while second_node and second_node.next_node:
+            first_node = first_node.next_node
+            second_node = second_node.next_node.next_node
+            if first_node == second_node:
+                return True
+        return False
+
     def __str__(self):
         nodes = self.get_nodes()
         return f'Link[{" -> ".join([str(node) for node in nodes])}]'
-
-
-if __name__ == "__main__":
-    link = Link()
-    link.add_node(Node(1))
-    link.add_node(Node(2))
-    link.add_node(Node(3))
-    link.add_node(Node(4))
-    print(link)
-    link.remove_node(2)
-    print(link)
-    print(link.length)
-    print(link.find(2))
-    print(link.find(1))
-    link.remove_node(0)
-    link.add_node(Node(5))
-
-    print(link)
-    print(link.head_node)
