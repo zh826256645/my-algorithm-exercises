@@ -13,7 +13,7 @@ from model import init_link, Link, Node
 
 
 def find_last_node(link, reverse_index: int):
-    "不使用 length 属性，查询倒数的节点"
+    " 不使用 length 属性，查询倒数的节点 "
     first_node = link.head_node
     second_node = link.head_node
     for i in range(reverse_index):
@@ -28,7 +28,7 @@ def find_last_node(link, reverse_index: int):
 
 
 def find_middle_node(link: Link) -> Node:
-    "查找中间的节点"
+    " 查找中间的节点 "
     first_node = link.head_node
     second_node = link.head_node
     while second_node.next_node and second_node.next_node.next_node:
@@ -38,7 +38,7 @@ def find_middle_node(link: Link) -> Node:
 
 
 def reverse_link(link: Link) -> Link:
-    "反转链表"
+    " 反转链表 "
     new_head_node = None
     current_node = link.head_node
     while current_node:
@@ -52,7 +52,7 @@ def reverse_link(link: Link) -> Link:
 
 
 def reverse_print(node: Node):
-    "反转打印"
+    " 反转打印 "
     if node.next_node:
         reverse_print(node.next_node)
 

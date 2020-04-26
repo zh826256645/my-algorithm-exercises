@@ -221,7 +221,7 @@ def partition_link(start_node: Node, end_node: Node) -> Node:
     将这段链表进行分区
 
     使用交换值的方式
-    :Return 这段链表的中间节点
+    :return: 这段链表的中间节点
     """
     # 取最开头的节点为中心点
     pivot = start_node.element
@@ -240,9 +240,75 @@ def partition_link(start_node: Node, end_node: Node) -> Node:
     return middle_node
 
 
+@measure
+def quicksort_main_swap_node(link: Link) -> Link:
+    """
+    快速排序（递归，交换节点）
+
+    测试:
+        链表的长度为 1000 --- Total execution time: 19 ms
+        链表的长度为 10000 --- Total execution time: 239 ms
+    """
+    head_pre_node = Node(0, link.head_node)
+    quicksort_swap_node(head_pre_node, link.head_node, None)
+    link.head_node = head_pre_node.next_node
+    return link
+
+
+def quicksort_swap_node(head_pre_node: Node, head_node: Node, tail_node: Node):
+    """
+    快速排序（递归，交换节点）
+
+    说明:
+        除了需要传入头节点，还需要
+        第一次递归的时候，head_node 可能已经不在表头了
+
+    :param head_pre_node: 头节点的父节点
+    :head_node: 头节点
+    :tail_node: 尾节点
+    """
+    if head_node and head_node != tail_node and head_node.next_node != tail_node:
+        middle_node = partition_link_swap_node(head_pre_node, head_node, tail_node)
+        # 可能 head_node 不在指向表头了
+        quicksort_swap_node(head_pre_node, head_pre_node.next_node, middle_node)
+        quicksort_swap_node(middle_node, middle_node.next_node, tail_node)
+
+
+def partition_link_swap_node(start_pre_node: Node, start_node: Node, end_node: Node) -> Node:
+    """
+    将这段链表进行分区
+
+    说明：
+        范围是左闭右开[start_node, end_node)
+
+    :param start_pre_node: 开始节点的父节点
+    :param strat_node: 开始节点
+    :param end_node: 结束节点
+    """
+    little_head_node, big_head_node = Node(0), Node(0)
+    little_node, big_node = little_head_node, big_head_node
+    current_node = start_node.next_node
+    while current_node and current_node != end_node:
+        if current_node < start_node:
+            little_node.next_node = current_node
+            little_node = current_node
+        else:
+            big_node.next_node = current_node
+            big_node = current_node
+
+        current_node = current_node.next_node
+
+    little_node.next_node = start_node
+    big_node.next_node = end_node
+    start_node.next_node = big_head_node.next_node
+    start_pre_node.next_node = little_head_node.next_node
+
+    return start_node
+
+
 if __name__ == "__main__":
     link = init_link(10000, True)
     # print(link)
     # link = insertion_sorting(link)
-    link = quicksort_main(link)
+    link = quicksort_main_swap_node(link)
     # print(link)
