@@ -211,12 +211,12 @@ def quicksort(head_node: Node, tail_node: Node):
         右链表右边界使用闭区间，左链表的左边界使用开区间
     """
     if head_node and head_node != tail_node and head_node.next_node != tail_node:
-        middle_node = partition_link(head_node, tail_node)
+        middle_node = partition(head_node, tail_node)
         quicksort(head_node, middle_node)
         quicksort(middle_node.next_node, tail_node)
 
 
-def partition_link(start_node: Node, end_node: Node) -> Node:
+def partition(start_node: Node, end_node: Node) -> Node:
     """
     将这段链表进行分区
 
@@ -268,21 +268,21 @@ def quicksort_swap_node(head_pre_node: Node, head_node: Node, tail_node: Node):
     :tail_node: 尾节点
     """
     if head_node and head_node != tail_node and head_node.next_node != tail_node:
-        middle_node = partition_link_swap_node(head_pre_node, head_node, tail_node)
+        middle_node = partition_swap_node(head_pre_node, head_node, tail_node)
         # 可能 head_node 不在指向表头了
         quicksort_swap_node(head_pre_node, head_pre_node.next_node, middle_node)
         quicksort_swap_node(middle_node, middle_node.next_node, tail_node)
 
 
-def partition_link_swap_node(start_pre_node: Node, start_node: Node, end_node: Node) -> Node:
+def partition_swap_node(start_pre_node: Node, start_node: Node, end_node: Node) -> Node:
     """
-    将这段链表进行分区
+    将这段链表进行分区（交换节点的方式）
 
     说明：
         范围是左闭右开[start_node, end_node)
 
     :param start_pre_node: 开始节点的父节点
-    :param strat_node: 开始节点
+    :param start_node: 开始节点
     :param end_node: 结束节点
     """
     little_head_node, big_head_node = Node(0), Node(0)
@@ -306,9 +306,34 @@ def partition_link_swap_node(start_pre_node: Node, start_node: Node, end_node: N
     return start_node
 
 
+@measure
+def quicksort_no_recursion(link: Link) -> Link:
+    """
+    快速排序（非递归）
+
+    说明：
+        partition 算法使用交换值的方式
+
+    测试:
+        链表的长度为 1000 --- Total execution time: 12 ms
+        链表的长度为 10000 --- Total execution time: 145 ms
+    """
+    temp_nodes = list()
+    temp_nodes.extend([link.head_node, Node])
+    while temp_nodes:
+        end_node = temp_nodes.pop()
+        start_node = temp_nodes.pop()
+        if start_node and start_node != end_node and start_node.next_node != end_node:
+            middle_node = partition(start_node, end_node)
+            temp_nodes.extend([start_node, middle_node])
+            temp_nodes.extend([middle_node.next_node, end_node])
+
+    return link
+
+
 if __name__ == "__main__":
     link = init_link(10000, True)
     # print(link)
     # link = insertion_sorting(link)
-    link = quicksort_main_swap_node(link)
+    link = quicksort_no_recursion(link)
     # print(link)
