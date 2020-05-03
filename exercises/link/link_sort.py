@@ -379,45 +379,45 @@ def find_middle_node(start_node: Node) -> Node:
     return first_node
 
 
-def merge_link(first_head_node: Node, secode_head_node: Node) -> Node:
+def merge_link(first_head_node: Node, second_head_node: Node) -> Node:
     """合并两条链表
 
     Arguments:
         first_head_node {Node} -- 第一条链表的头节点
-        secode_head_node {Node} -- 第二条链表的头节点
+        second_head_node {Node} -- 第二条链表的头节点
 
     Returns:
         Node -- 返回链表的头节点
     """
     if not first_head_node:
-        return secode_head_node
+        return second_head_node
 
-    if not secode_head_node:
+    if not second_head_node:
         return first_head_node
 
-    if first_head_node < secode_head_node:
+    if first_head_node < second_head_node:
         head_node = first_head_node
         first_head_node = first_head_node.next_node
     else:
-        head_node = secode_head_node
-        secode_head_node = secode_head_node.next_node
+        head_node = second_head_node
+        second_head_node = second_head_node.next_node
 
     current_node = head_node
 
-    while first_head_node and secode_head_node:
-        if first_head_node < secode_head_node:
+    while first_head_node and second_head_node:
+        if first_head_node < second_head_node:
             current_node.next_node = first_head_node
             first_head_node = first_head_node.next_node
         else:
-            current_node.next_node = secode_head_node
-            secode_head_node = secode_head_node.next_node
+            current_node.next_node = second_head_node
+            second_head_node = second_head_node.next_node
 
         current_node = current_node.next_node
 
     if first_head_node:
         current_node.next_node = first_head_node
-    elif secode_head_node:
-        current_node.next_node = secode_head_node
+    elif second_head_node:
+        current_node.next_node = second_head_node
 
     return head_node
 
