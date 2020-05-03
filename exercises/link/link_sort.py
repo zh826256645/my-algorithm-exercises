@@ -331,9 +331,100 @@ def quicksort_no_recursion(link: Link) -> Link:
     return link
 
 
+@measure
+def merge_sort_main(link: Link) -> Link:
+    """
+    归并排序(递归)
+
+    测试:
+        链表的长度为 1000 --- Total execution time: 14 ms
+        链表的长度为 10000 --- Total execution time: 175 ms
+
+    """
+    link.head_node = merge_sort(link.head_node)
+    return link
+
+
+def merge_sort(start_node: Node) -> Node:
+    """
+    归并排序
+    """
+    if not start_node or not start_node.next_node:
+        return start_node
+
+    # 断开链表
+    middle_node = find_middle_node(start_node)
+    _next_node = middle_node.next_node
+    middle_node.next_node = None
+
+    first_head_node = merge_sort(start_node)
+    secode_head_node = merge_sort(_next_node)
+    return merge_link(first_head_node, secode_head_node)
+
+
+def find_middle_node(start_node: Node) -> Node:
+    """查找中间节点
+
+    Arguments:
+        start_node -- 开始的节点
+
+    Returns:
+        Node -- 返回中间节点
+    """
+    first_node = start_node
+    second_node = start_node
+    while second_node.next_node and second_node.next_node.next_node:
+        first_node = first_node.next_node
+        second_node = second_node.next_node.next_node
+    return first_node
+
+
+def merge_link(first_head_node: Node, secode_head_node: Node) -> Node:
+    """合并两条链表
+
+    Arguments:
+        first_head_node {Node} -- 第一条链表的头节点
+        secode_head_node {Node} -- 第二条链表的头节点
+
+    Returns:
+        Node -- 返回链表的头节点
+    """
+    if not first_head_node:
+        return secode_head_node
+
+    if not secode_head_node:
+        return first_head_node
+
+    if first_head_node < secode_head_node:
+        head_node = first_head_node
+        first_head_node = first_head_node.next_node
+    else:
+        head_node = secode_head_node
+        secode_head_node = secode_head_node.next_node
+
+    current_node = head_node
+
+    while first_head_node and secode_head_node:
+        if first_head_node < secode_head_node:
+            current_node.next_node = first_head_node
+            first_head_node = first_head_node.next_node
+        else:
+            current_node.next_node = secode_head_node
+            secode_head_node = secode_head_node.next_node
+
+        current_node = current_node.next_node
+
+    if first_head_node:
+        current_node.next_node = first_head_node
+    elif secode_head_node:
+        current_node.next_node = secode_head_node
+
+    return head_node
+
+
 if __name__ == "__main__":
     link = init_link(10000, True)
     # print(link)
     # link = insertion_sorting(link)
-    link = quicksort_no_recursion(link)
+    link = merge_sort_main(link)
     # print(link)
