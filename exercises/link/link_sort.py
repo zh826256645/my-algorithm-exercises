@@ -481,20 +481,49 @@ def cut_link(head_node: Node, size: int) -> Node:
     """
     last = head_node
     for i in range(size):
-        if head_node:
-            last = head_node
-            head_node = head_node.next_node
-        else:
+        if not head_node:
             break
+
+        last = head_node
+        head_node = head_node.next_node
 
     if last:
         last.next_node = None
     return head_node
 
 
+@measure
+def bubble_sort(link: Link) -> Link:
+    """冒泡排序
+
+    测试:
+        链表的长度为 1000 --- Total execution time: 743 ms
+        链表的长度为 10000 --- Total execution time: 78424 ms
+
+    Arguments:
+        link {Link} -- 链表
+
+    Returns:
+        Link -- 链表
+    """
+    tail_node = None
+    while link.head_node.next_node and link.head_node != tail_node:
+        current_node = link.head_node
+
+        while current_node and current_node.next_node and current_node.next_node != tail_node:
+            if current_node > current_node.next_node:
+                current_node.element, current_node.next_node.element = current_node.next_node.element, current_node.element
+
+            current_node = current_node.next_node
+
+        tail_node = current_node
+
+    return link
+
+
 if __name__ == "__main__":
     link = init_link(10000, True)
     # print(link)
     # link = insertion_sorting(link)
-    link = merge_sort_no_recursion(link)
+    link = bubble_sort(link)
     # print(link)
