@@ -9,6 +9,8 @@
 @Contact :   zh826256645@gmail.com
 @Desc    :   None
 """
+import math
+
 from utils import measure
 from model import Link, Node, init_link
 
@@ -340,6 +342,10 @@ def merge_sort_main(link: Link) -> Link:
         链表的长度为 1000 --- Total execution time: 14 ms
         链表的长度为 10000 --- Total execution time: 175 ms
 
+    leetcode:
+        link: https://leetcode-cn.com/problems/sort-list/submissions/
+        执行用时: 224 ms, 在所有 Python3 提交中击败了 67.87% 的用户
+        内存消耗: 20.7 MB, 在所有 Python3 提交中击败了 28.57% 的用户
     """
     link.head_node = merge_sort(link.head_node)
     return link
@@ -422,9 +428,73 @@ def merge_link(first_head_node: Node, second_head_node: Node) -> Node:
     return head_node
 
 
+@measure
+def merge_sort_no_recursion(link: Link) -> Link:
+    """归并排序(非递归)
+
+    说明:
+        将所有节点，两两排序，在四个四个排序，以此类推
+
+    测试:
+        链表的长度为 1000 --- Total execution time: 25 ms
+        链表的长度为 10000 --- Total execution time: 595 ms
+
+    Arguments:
+        link {Link} -- 链表
+
+    Returns:
+        Link -- 链表
+    """
+    head_node = Node(0, link.head_node)
+    length = 0
+    current = head_node.next_node
+    while current:
+        length += 1
+        current = current.next_node
+
+    end = math.sqrt(length)
+    end += 1 if not end.is_integer() else 0
+    for i in range(0, int(end)):
+        new_head = head_node
+        current = head_node.next_node
+        while current:
+            right = current
+            left = cut_link(current, pow(2, i))
+            current = cut_link(left, pow(2, i))
+            new_head.next_node = merge_link(right, left)
+            while new_head.next_node:
+                new_head = new_head.next_node
+
+    link.head_node = head_node.next_node
+    return link
+
+
+def cut_link(head_node: Node, size: int) -> Node:
+    """断开链表，并返回新的头节点
+
+    Arguments:
+        head_node {Node} -- 链表的头节点
+        size {int} -- 断开的长度
+
+    Returns:
+        Node -- 新的头节点
+    """
+    last = head_node
+    for i in range(size):
+        if head_node:
+            last = head_node
+            head_node = head_node.next_node
+        else:
+            break
+
+    if last:
+        last.next_node = None
+    return head_node
+
+
 if __name__ == "__main__":
     link = init_link(10000, True)
     # print(link)
     # link = insertion_sorting(link)
-    link = merge_sort_main(link)
+    link = merge_sort_no_recursion(link)
     # print(link)
