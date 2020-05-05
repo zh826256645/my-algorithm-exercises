@@ -433,7 +433,7 @@ def merge_sort_no_recursion(link: Link) -> Link:
     """归并排序(非递归)
 
     说明:
-        将所有节点，两两排序，在四个四个排序，以此类推
+        将所有节点，两两归并，再四个四个归并，以此类推
 
     测试:
         链表的长度为 1000 --- Total execution time: 25 ms
