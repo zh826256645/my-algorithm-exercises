@@ -26,7 +26,7 @@ class Node:
         return self.next_node
 
     def __str__(self):
-        return f'Node[element={self.element}]'
+        return f'{self.__class__.__name__}[element={self.element}]'
 
     def __gt__(self, other_node):
         return self.element > other_node.element
