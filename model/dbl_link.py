@@ -41,9 +41,12 @@ class DblLink:
         Arguments:
             head_node {DblNode} -- 头节点 (default: {None})
         """
+        self.length = 0
         if head_node:
             head_node.prev_node = head_node
             head_node.next_node = head_node
+            self.length += 1
+
         self.head_node = head_node
 
     def add_node(self, node: DblNode) -> bool:
@@ -55,16 +58,53 @@ class DblLink:
         Returns:
             bool -- 添加结果
         """
-        if not self.head_node:
-            node.prev_node = node
-            node.next_node = node
-            self.head_node = node
-        else:
-            tail_node = self.head_node.prev_node
-            tail_node.next_node = node
-            node.prev_node = tail_node
-            self.head_node.prev_node = node
-            node.next_node = self.head_node
+        if node:
+            if not self.head_node:
+                node.prev_node = node
+                node.next_node = node
+                self.head_node = node
+            else:
+                tail_node = self.head_node.prev_node
+                tail_node.next_node = node
+                node.prev_node = tail_node
+                self.head_node.prev_node = node
+                node.next_node = self.head_node
+
+            self.length += 1
+            return True
+        return False
+
+    def remove_node(self, index: int) -> Node:
+        """删除节点
+
+        Arguments:
+            index {int} -- 删除节点的位置
+
+        Returns:
+            Node -- 删除的节点
+        """
+        current_node = self.head_node
+        step = 0
+
+        if not self.head_node or index > self.length - 1:
+            return None
+
+        while current_node and step <= self.length - 1:
+            if step != index:
+                current_node = current_node.next_node
+                step += 1
+            else:
+                if self.head_node == current_node:
+                    self.head_node = None
+                else:
+                    current_node.prev_node.next_node = current_node.next_node
+                    current_node.next_node.prev_node = current_node.prev_node
+
+                current_node.prev_node = None
+                current_node.next_node = None
+                self.length -= 1
+                return current_node
+        return None
 
     def get_nodes(self) -> list:
         """获取所有节点
@@ -86,6 +126,9 @@ class DblLink:
         nodes = self.get_nodes()
         return f'DblLink[{" <-> ".join([str(node) for node in nodes])}]'
 
+    def __len__(self):
+        return self.length
+
 
 if __name__ == "__main__":
     link = DblLink()
@@ -93,4 +136,8 @@ if __name__ == "__main__":
     link.add_node(DblNode(1))
     link.add_node(DblNode(2))
     link.add_node(DblNode(3))
+    print(link)
+    link.remove_node(2)
+    print(link)
+    link.remove_node(2)
     print(link)
