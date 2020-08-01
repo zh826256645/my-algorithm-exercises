@@ -122,6 +122,18 @@ class DblLink:
 
         return nodes
 
+    @property
+    def size(self):
+        size = 0
+        node = self.head_node
+        while node:
+            size += 1
+            node = node.next_node
+            if node == self.head_node:
+                break
+
+        return size
+
     def __str__(self):
         nodes = self.get_nodes()
         return f'DblLink[{" <-> ".join([str(node) for node in nodes])}]'
@@ -141,3 +153,4 @@ if __name__ == "__main__":
     print(link)
     link.remove_node(2)
     print(link)
+    print(link.size)
