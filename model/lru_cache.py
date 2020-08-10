@@ -1,7 +1,16 @@
-"""LRU 缓存类
-
-使用双向链表 + 字典实现缓存机制
+# -*- encoding: utf-8 -*-
 """
+LRU 缓存类
+
+
+@File    :   lru_cache.py
+@Time    :   2020/08/01 16:34:20
+@Author  :   Zhong Hao
+@Version :   1.0
+@Contact :   zh826256645@gmail.com
+@Desc    :   使用双向链表 + 字典实现缓存机制
+"""
+
 from model.dbl_link import DblNode, DblLink
 
 
