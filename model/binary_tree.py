@@ -10,8 +10,6 @@
 @Desc    :   None
 """
 
-import random
-
 # 树枝
 PREFIX_BRANCH = "├"
 # 树干
@@ -117,14 +115,6 @@ class BinaryTree:
             else:
                 current = current.right
 
-    def delete(self, element, node=None):
-        """删除第一个匹配的节点
-
-        Keyword arguments:
-        argument -- description
-        Return: return_description
-        """
-
     def pre_order(self, node) -> str:
         """前序遍历
 
@@ -195,23 +185,64 @@ class BinaryTree:
 
         return _str
 
-    def remove(self, element, node=None) -> bool:
+    def remove(self, node: BiTNode, key) -> BiTNode:
         """移除第一个匹配元素的节点
 
-        移除的节点无左右子节点(叶子节点)
-        移除的节点无左子节点
-        移除的节点无右子节点
-        移除的节点同时有左右节点
+        三种情况：
+            1.移除的节点无左右子节点(叶子节点)：直接移除
+            2.移除的节点有右子节点：找出右子节点中最小的继任者，替换要移除的节点
+            3.移除的节点只有左子节点：找出左子节点中最大的继任者，替换要移除的节点
 
         Keyword arguments:
-        element -- 元素
         node -- 节点
-        Return: return_description
+        key -- 匹配的 key
         """
         if not node:
             return None
 
-        pass
+        if node.element > key:
+            node.left = self.remove(node.left, key)
+        elif node.element < key:
+            node.right = self.remove(node.right, key)
+        else:
+            if not node.left and not node.right:
+                node = None
+            elif node.right:
+                node.element = self.successor(node)
+                node.right = self.remove(node.right, node.element)
+            else:
+                node.element = self.pre_successor(node)
+                node.left = self.remove(node.left, node.element)
+
+        return node
+
+    @staticmethod
+    def successor(node):
+        """获取节点右节点中最小的继任者
+
+        Keyword arguments:
+        node -- 节点
+        Return: 节点的值
+        """
+
+        node = node.right
+        while node.left:
+            node = node.left
+        return node.element
+
+    @staticmethod
+    def pre_successor(node):
+        """获取节点左子节点中最大的继承者
+
+        Keyword arguments:
+        node -- 节点
+        Return: 节点的值
+        """
+
+        node = node.left
+        while node.right:
+            node = node.right
+        return node.element
 
     @staticmethod
     def has_child(node):
@@ -263,17 +294,28 @@ class BinaryTree:
 
 def main():
     tree = BinaryTree()
-    for i in range(10):
-        tree.put(random.randint(0, 100))
+    tree.put(5)
+    tree.put(3)
+    tree.put(4)
+    tree.put(2)
+    tree.put(1)
+    tree.put(7)
+    tree.put(6)
+    tree.put(8)
+    tree.put(9)
 
-    _str = tree.pre_order(tree.root)
-    print(_str)
-    _str = tree.in_order(tree.root)
-    print(_str)
-    _str = tree.post_order(tree.root)
-    print(_str)
-    _str = tree.lever_order(tree.root)
-    print(_str)
+    tree.format_out()
+
+    tree.remove(tree.root, 1)
+
+    tree.format_out()
+
+    tree.remove(tree.root, 5)
+
+    tree.format_out()
+
+    tree.remove(tree.root, 10)
+
     tree.format_out()
 
 
