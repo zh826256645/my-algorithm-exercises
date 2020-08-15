@@ -11,11 +11,11 @@
 """
 import random
 
-from model.binary_tree import BinaryTree
+from model.binary_tree import BinarySearchTree
 
 
-def init_tree(random_tree=False, num=10) -> BinaryTree:
-    tree = BinaryTree()
+def init_tree(random_tree=False, num=10) -> BinarySearchTree:
+    tree = BinarySearchTree()
 
     if random_tree:
         for i in range(num):

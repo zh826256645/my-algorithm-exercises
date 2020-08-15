@@ -54,8 +54,13 @@ class BiTNode:
         return f'BiTNode[{self.element}]'
 
 
-class BinaryTree:
-    """二叉树
+class BinarySearchTree:
+    """二叉搜索树
+
+    满足以下条件
+        1. 若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；
+        2. 若任意节点的右子树不空，则右子树上所有节点的值均大于或等于它的根节点的值；
+        3. 任意节点的左、右子树也分别为二叉查找树；
 
     """
 
@@ -293,7 +298,7 @@ class BinaryTree:
 
 
 def main():
-    tree = BinaryTree()
+    tree = BinarySearchTree()
     tree.put(5)
     tree.put(3)
     tree.put(4)
@@ -317,6 +322,8 @@ def main():
     tree.remove(tree.root, 10)
 
     tree.format_out()
+
+    print(tree.in_order(tree.root))
 
 
 if __name__ == "__main__":
