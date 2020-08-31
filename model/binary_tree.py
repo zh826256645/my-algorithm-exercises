@@ -363,32 +363,6 @@ class BinarySearchTree(BinaryTree):
 
 
 def main():
-    # tree = BinarySearchTree()
-    # tree.put(5)
-    # tree.put(3)
-    # tree.put(4)
-    # tree.put(2)
-    # tree.put(1)
-    # tree.put(7)
-    # tree.put(6)
-    # tree.put(8)
-    # tree.put(9)
-
-    # tree.format_out()
-
-    # tree.remove(tree.root, 1)
-
-    # tree.format_out()
-
-    # tree.remove(tree.root, 5)
-
-    # tree.format_out()
-
-    # tree.remove(tree.root, 10)
-
-    # tree.format_out()
-
-    # print(tree.in_order(tree.root))
 
     items = [9, 3, 4, 5, 6, 7, 1, 2, 8, 10]
     tree = CartesianTree(items=items)
