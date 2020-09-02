@@ -172,7 +172,6 @@ class VALTree(BinarySearchTree):
 
         if node < root:
             root.left = self._put(node, root.left)
-            # if self.height(root.left) - self.height(root.right) == 2:
             if self.balance_factor(root.left, root.right) == 2:
                 if node < root.left:
                     root = self.rotate_right(root)
@@ -181,7 +180,6 @@ class VALTree(BinarySearchTree):
 
         else:
             root.right = self._put(node, root.right)
-            # if self.height(root.right) - self.height(root.left) == 2:
             if self.balance_factor(root.right, root.left) == 2:
 
                 if node < root.right:
@@ -191,6 +189,64 @@ class VALTree(BinarySearchTree):
 
         root.height = self.height(root)
 
+        return root
+
+    def remove(self, node: VALNode, key) -> VALNode:
+        """移除节点
+
+        Args:
+            node (VALNode): 当前节点
+            key ([type]): 移除的节点的 key
+
+        Returns:
+            VALNode: 新的头节点
+        """
+        if not node:
+            node = self.root
+            self.root = self._remove(node, key)
+        else:
+            self._remove(node, key)
+
+    def _remove(self, root: VALNode, key) -> VALNode:
+        """移除节点
+
+        Args:
+            root (VALNode): 根结点
+            key ([type]): 移除节点的 key
+
+        Returns:
+            VALNode: 新的根节点
+        """
+        if not root:
+            return None
+
+        if root.element > key:
+            root.left = self._remove(root.left, key)
+            if self.balance_factor(root.left, root.right) == 2:
+                if root.left.element < key:
+                    root = self.rotate_right(root)
+                else:
+                    root = self.rotate_left_right(root)
+
+        elif root.element < key:
+            root.right = self._remove(root.right, key)
+            if self.balance_factor(root.left, root.right) == 2:
+                if root.right.element > key:
+                    root = self.rotate_left(root)
+                else:
+                    root = self.rotate_right_left(root)
+
+        else:
+            if not root.left and not root.right:
+                return None
+            elif root.right:
+                root.element = self.successor(root)
+                root.right = self._remove(root.right, root.element)
+            else:
+                root.element = self.pre_successor(root)
+                root.left = self._remove(root.left, root.element)
+
+        root.height = self.height(root)
         return root
 
     def height(self, root: VALNode):
@@ -222,7 +278,7 @@ class VALTree(BinarySearchTree):
         if node_2:
             height_2 = node_2.height
 
-        return height_1 - height_2
+        return abs(height_1 - height_2)
 
 
 @measure
@@ -234,11 +290,13 @@ def main():
     import random
 
     tree = VALTree()
-    for i in range(10000):
-        i = random.randint(0, 10000)
+    for i in range(10):
+        i = random.randint(0, 10)
         tree.put(i)
 
-    print(find(tree, 5))
+    tree.format_out()
+    tree.remove(tree.root, 3)
+    tree.format_out()
 
 
 if __name__ == "__main__":
