@@ -41,7 +41,7 @@ class VALTree(BinarySearchTree):
         BinarySearchTree (): 二叉搜索树
     """
 
-    def __init__(self, root: VALNode=None) -> None:
+    def __init__(self, root: VALNode = None) -> None:
         super().__init__(root)
 
     def rotate_right(self, root: VALNode) -> VALNode:
@@ -130,7 +130,6 @@ class VALTree(BinarySearchTree):
         root.left = self.rotate_left(root.left)
         return self.rotate_right(root)
 
-
     def rotate_right_left(self, root: VALNode) -> VALNode:
         """根结点的右子树的左节点失衡（双旋转）
 
@@ -154,7 +153,7 @@ class VALTree(BinarySearchTree):
         """
 
         root.right = self.rotate_right(root.right)
-        return  self.rotate_left(root)
+        return self.rotate_left(root)
 
     def put(self, element):
         """插入节点
@@ -166,7 +165,6 @@ class VALTree(BinarySearchTree):
         new_root = self._put(new_node, self.root)
 
         self.root = new_root
-
 
     def _put(self, node: VALNode, root: VALNode) -> VALNode:
         if not root:
@@ -194,7 +192,6 @@ class VALTree(BinarySearchTree):
         root.height = self.height(root)
 
         return root
-
 
     def height(self, root: VALNode):
         """计算节点的高度
