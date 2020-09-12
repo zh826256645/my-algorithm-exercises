@@ -51,7 +51,7 @@ class BiTNode:
         return self.element == node.element
 
     def __str__(self) -> str:
-        return f'BiTNode[{self.element}]'
+        return f'{self.__class__.__name__}[{self.element}]'
 
 
 class BinaryTree:

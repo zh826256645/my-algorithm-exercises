@@ -5,7 +5,7 @@
 由于二叉树搜索树不是严格的 O(logN), 因此在实际场景中没有用武之地
 
 将数据导入二叉树后希望以“完全二叉树”的形式展示，才能做到查找是严格的 O(logN)
-@File    :   balanced_binary_search_tree.py
+@File    :   val_tree.py
 @Time    :   2020/08/28 11:12:57
 @Author  :   Zhong Hao
 @Version :   1.0
