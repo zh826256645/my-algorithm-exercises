@@ -17,7 +17,8 @@
     }
     ```
 
-## 项目
+## 代码
+### 数据结构
 1. [单向链表](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/link.py)
     - [x] [计算环的长度](https://github.com/zh826256645/my-algorithm-exercises/blob/b43234d586074a9da4a432893b38d1729c157b1d/exercises/link/link.py#L62)
     - [x] [冒泡排序](https://github.com/zh826256645/my-algorithm-exercises/blob/26e2d73b4dfd496acf43f63c6cebc16730c4acd7/exercises/link/link_sort.py#L496)
@@ -36,3 +37,9 @@
     - [x] [自平衡二叉搜索树](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/avl_tree.py)
     - [x] [堆树](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/treap.py)
     - [x] [伸展树](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/splay_tree.py)
+
+### 算法
+1. 相似算法
+    - [x] [莱文斯坦距离](https://github.com/zh826256645/my-algorithm-exercises/blob/master/algorithms/similarity/levenshtein_distance.py)
+    - [x] [汉明距离](https://github.com/zh826256645/my-algorithm-exercises/blob/master/algorithms/similarity/hamming_distance.py)
+    - [x] [Jaro-Winkler 距离](https://github.com/zh826256645/my-algorithm-exercises/blob/master/algorithms/similarity/jaro_winkler_distance.py)
