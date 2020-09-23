@@ -34,7 +34,7 @@
     - [x] [二叉搜索树](https://github.com/zh826256645/my-algorithm-exercises/blob/522a264a6a3df2bce67cbfaffaa5fae1dd76d518/model/binary_tree.py#L241)
     - [x] [笛卡尔树](https://github.com/zh826256645/my-algorithm-exercises/blob/522a264a6a3df2bce67cbfaffaa5fae1dd76d518/model/binary_tree.py#L191)
     - [x] [IP 树](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/ip_tree.py)
-    - [x] [自平衡二叉搜索树](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/avl_tree.py)
+    - [x] [AVL 树](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/avl_tree.py)
     - [x] [堆树](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/treap.py)
     - [x] [伸展树](https://github.com/zh826256645/my-algorithm-exercises/blob/master/model/splay_tree.py)
 
