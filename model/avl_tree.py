@@ -5,7 +5,7 @@
 由于二叉树搜索树不是严格的 O(logN), 因此在实际场景中没有用武之地
 
 将数据导入二叉树后希望以“完全二叉树”的形式展示，才能做到查找是严格的 O(logN)
-@File    :   val_tree.py
+@File    :   AVL_tree.py
 @Time    :   2020/08/28 11:12:57
 @Author  :   Zhong Hao
 @Version :   1.0
@@ -16,8 +16,8 @@ from model.binary_tree import BiTNode, BinarySearchTree
 from utils.time import measure
 
 
-class VALNode(BiTNode):
-    """VAL 节点
+class AVLNode(BiTNode):
+    """AVL 节点
     比普通的二叉树节点多了一个高度值
 
     Args:
@@ -29,8 +29,8 @@ class VALNode(BiTNode):
         self.height = 1
 
 
-class VALTree(BinarySearchTree):
-    """VAL 树
+class AVLTree(BinarySearchTree):
+    """AVL 树
     是最早被发明的平衡二叉树，又被称为高度平衡树
     查找、插入、删除平均和最坏情况下均是 O(logN)
 
@@ -41,10 +41,10 @@ class VALTree(BinarySearchTree):
         BinarySearchTree (): 二叉搜索树
     """
 
-    def __init__(self, root: VALNode = None) -> None:
+    def __init__(self, root: AVLNode = None) -> None:
         super().__init__(root)
 
-    def rotate_right(self, root: VALNode) -> VALNode:
+    def rotate_right(self, root: AVLNode) -> AVLNode:
         """根节点的左子树的左节点失衡（单次右旋）
 
                [7]                  [5]
@@ -61,10 +61,10 @@ class VALTree(BinarySearchTree):
         3.原根结点变为新根结点的右节点
 
         Args:
-            root (VALNode): 根结点
+            root (AVLNode): 根结点
 
         Returns:
-            VALNode: 新的根结点
+            AVLNode: 新的根结点
         """
         new_root = root.left
         root.left = new_root.right
@@ -75,7 +75,7 @@ class VALTree(BinarySearchTree):
 
         return new_root
 
-    def rotate_left(self, root: VALNode) -> VALNode:
+    def rotate_left(self, root: AVLNode) -> AVLNode:
         """根结点的右子树的右节点失衡（单次左旋）
 
            [4]                     [6]
@@ -92,10 +92,10 @@ class VALTree(BinarySearchTree):
         3.原根结点变为新根节点的左节点
 
         Args:
-            root (VALNode): 根结点
+            root (AVLNode): 根结点
 
         Returns:
-            VALNode: 新的根结点
+            AVLNode: 新的根结点
         """
         new_root = root.right
         root.right = new_root.left
@@ -106,7 +106,7 @@ class VALTree(BinarySearchTree):
 
         return new_root
 
-    def rotate_left_right(self, root: VALNode) -> VALNode:
+    def rotate_left_right(self, root: AVLNode) -> AVLNode:
         """根结点的左子树的右节点失衡（双旋转）
 
                [8]                 [8]                   [6]
@@ -122,15 +122,15 @@ class VALTree(BinarySearchTree):
         2.将根结点进行右旋
 
         Args:
-            root (VALNode): 根结点
+            root (AVLNode): 根结点
 
         Returns:
-            VALNode: 新的根结点
+            AVLNode: 新的根结点
         """
         root.left = self.rotate_left(root.left)
         return self.rotate_right(root)
 
-    def rotate_right_left(self, root: VALNode) -> VALNode:
+    def rotate_right_left(self, root: AVLNode) -> AVLNode:
         """根结点的右子树的左节点失衡（双旋转）
 
            [3]                   [3]                        [5]
@@ -146,10 +146,10 @@ class VALTree(BinarySearchTree):
         2.将根结点进行左旋
 
         Args:
-            root (VALNode): 根结点
+            root (AVLNode): 根结点
 
         Returns:
-            VALNode: 新的根结点
+            AVLNode: 新的根结点
         """
 
         root.right = self.rotate_right(root.right)
@@ -161,12 +161,12 @@ class VALTree(BinarySearchTree):
         Args:
             element ([type]): [description]
         """
-        new_node = VALNode(element)
+        new_node = AVLNode(element)
         new_root = self._put(new_node, self.root)
 
         self.root = new_root
 
-    def _put(self, node: VALNode, root: VALNode) -> VALNode:
+    def _put(self, node: AVLNode, root: AVLNode) -> AVLNode:
         if not root:
             return node
 
@@ -191,15 +191,15 @@ class VALTree(BinarySearchTree):
 
         return root
 
-    def remove(self, node: VALNode, key) -> VALNode:
+    def remove(self, node: AVLNode, key) -> AVLNode:
         """移除节点
 
         Args:
-            node (VALNode): 当前节点
+            node (AVLNode): 当前节点
             key ([type]): 移除的节点的 key
 
         Returns:
-            VALNode: 新的头节点
+            AVLNode: 新的头节点
         """
         if not node:
             node = self.root
@@ -207,15 +207,15 @@ class VALTree(BinarySearchTree):
         else:
             self._remove(node, key)
 
-    def _remove(self, root: VALNode, key) -> VALNode:
+    def _remove(self, root: AVLNode, key) -> AVLNode:
         """移除节点
 
         Args:
-            root (VALNode): 根结点
+            root (AVLNode): 根结点
             key ([type]): 移除节点的 key
 
         Returns:
-            VALNode: 新的根节点
+            AVLNode: 新的根节点
         """
         if not root:
             return None
@@ -249,11 +249,11 @@ class VALTree(BinarySearchTree):
         root.height = self.height(root)
         return root
 
-    def height(self, root: VALNode):
+    def height(self, root: AVLNode):
         """计算节点的高度
 
         Args:
-            node (VALNode): 根结点
+            node (AVLNode): 根结点
         """
         if not root:
             return 0
@@ -261,12 +261,12 @@ class VALTree(BinarySearchTree):
         return max(self.height(root.left), self.height(root.right)) + 1
 
     @staticmethod
-    def balance_factor(node_1: VALNode, node_2: VALNode) -> int:
+    def balance_factor(node_1: AVLNode, node_2: AVLNode) -> int:
         """计算平衡因子
 
         Args:
-            node_1 (VALNode): 节点 1
-            node_2 (VALNode): 节点 2
+            node_1 (AVLNode): 节点 1
+            node_2 (AVLNode): 节点 2
 
         Returns:
             int: 平衡因子
@@ -289,7 +289,7 @@ def find(tree, element):
 def main():
     import random
 
-    tree = VALTree()
+    tree = AVLTree()
     for i in range(10):
         i = random.randint(0, 10)
         tree.put(i)
