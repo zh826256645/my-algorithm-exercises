@@ -47,8 +47,8 @@ class BiTNode:
     def __gt__(self, node):
         return self.element > node.element
 
-    def __eq__(self, node):
-        return self.element == node.element
+    # def __eq__(self, node):
+    #     return self.element == node.element
 
     def __str__(self) -> str:
         return f'{self.__class__.__name__}[{self.element}]'
